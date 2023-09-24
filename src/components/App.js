@@ -1,42 +1,30 @@
-import React, { Suspense } from 'react';
-import { Toaster } from 'react-hot-toast';
-import { Routes, Route, Navigate } from 'react-router-dom';
-import { GlobalStyle } from './Global.styled.js';
+import { lazy } from 'react';
+import { Outlet, Route, Routes } from 'react-router-dom';
+import '../index.css';
+import { Layout } from './Layout/Layout';
 
-const { Home } = React.lazy(() => import('./Home/Home.js'));
-const { Movies } = React.lazy(() => import('./Movies/Movies.js'));
-const { MovieDetails } = React.lazy(() =>
-  import('./MovieDetails/MovieDetails.js')
-);
+const HomePage = lazy(() => import('pages/HomePage'));
+const ErrorPage = lazy(() => import('pages/ErrorPage'));
+const MovieDetailsPage = lazy(() => import('pages/MoviesDetailsPage'));
+const SearchMoviesPage = lazy(() => import('pages/SearchMoviesPage'));
+const Cast = lazy(() => import('./Cast/Cast'));
+const Reviews = lazy(() => import('./Reviews/Reviews'));
 
-export function App() {
+export const App = () => {
   return (
-    <div>
+    <>
       <Routes>
-        <Suspense fallback={<div>Loading...</div>}>
-          <Route path="/" element={<Home />} />
-          <Route path="/movies" element={<Movies />} />
-          <Route path="/movies/:movieId" element={<MovieDetails />} />
-          <Route path="*" element={<Navigate to="/" />} />
-        </Suspense>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route path="/movies" element={<SearchMoviesPage />} />
+          <Route path="/movies/:movieId" element={<MovieDetailsPage />}>
+            <Route path="cast" element={<Cast />} />
+            <Route path="reviews" element={<Reviews />} />
+          </Route>
+          <Route path="*" element={<ErrorPage />} />
+        </Route>
       </Routes>
-      <GlobalStyle />
-      <Toaster position="top-right" />
-    </div>
+      <Outlet />
+    </>
   );
-}
-
-// const App = () => {
-//   return (
-//     <>
-//       <Routes>
-//         <Route path="/" element={<Layout />}>
-//           <Route path="create" element={<CreateQuizPage />} />
-//           <Route path="quizzes" element={<QuizzesPage />} />
-//           <Route path="quizzes/:quizId" element={<QuizDetailsPage />} />
-//         </Route>
-//       </Routes>
-//       <GlobalStyle />
-//     </>
-//   );
-// };
+};
