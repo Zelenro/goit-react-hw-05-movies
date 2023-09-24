@@ -1,0 +1,1 @@
+{"version":3,"file":"static/js/354.954ce5fc.chunk.js","mappings":"gMAAe,SAASA,IACtB,OAAOC,EAAAA,EAAAA,KAAA,KAAAC,SAAG,iDACZ,C","sources":["pages/ErrorPage.js"],"sourcesContent":["export default function ErrorPage() {\n  return <p>Oops! Something went wrong. Please try again.</p>;\n}\n"],"names":["ErrorPage","_jsx","children"],"sourceRoot":""}
